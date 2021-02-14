@@ -3,7 +3,11 @@ const jwt = require('jsonwebtoken');
 module.exports = (req, res, next)=>{
     const token = req.session.token;
    
-    if(!token) return res.status(401).send("access denied");
+    if(!token) {
+        req.flash("error", "please login first")
+        res.redirect("/login")
+       
+    }
     try{
         const verified = jwt.verify(token,"ibbibaibaiebfjaefbafb");
         req.user = verified;
